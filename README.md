@@ -1,4 +1,4 @@
-# [<i class="icon-refresh"></i>]JobRunner
+# [:clock4:] JobRunner
 
 JobRunner is framework for performing work asynchronously, outside of the request flow. It comes with cron to schedule and queue job functions for processing at specified time.
 
