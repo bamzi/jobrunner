@@ -1,4 +1,4 @@
-# [:clock4:](https://raw.githubusercontent.com/bamzi/jobrunner/master/views/runclock.jpg) JobRunner
+# ![](https://raw.githubusercontent.com/bamzi/jobrunner/master/views/runclock.jpg) JobRunner
 
 JobRunner is framework for performing work asynchronously, outside of the request flow. It comes with cron to schedule and queue job functions for processing at specified time.
 
