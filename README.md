@@ -33,7 +33,7 @@ func (e ReminderEmails) Run() {
 ## WHY?
 To reduce our http response latency by 200+%
 
-JobRunner was created to help us process functions unrelated to response without any delays to the http response. Some of the GoRoutines spun off mid way through the request processing would timeout because response was already processed, closing the instance window all together. 
+JobRunner was created to help us process functions unrelated to response without any delays to the http response. GoRoutines would timeout because response has already been processed, closing the instance window all together. 
 
 Instead of creating a separate independent app, we wanted to save time and manageability of our current app by coupling-in the job processing. We did not want to have micro services. It's premature optimization.
 
