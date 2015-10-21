@@ -2,19 +2,35 @@
 	<head>
 		<style>
 body {
-  font-size: 12px;
+	margin: 30px 0 0 0;
+  font-size: 11px;
   font-family: sans-serif;
+  color: #345;
+
+}
+h1 {
+	font-size: 24px;
+	text-align: center;
+	padding: 10 0 30px;
 }
 table {
+	/*max-width: 80%;*/
+	margin: 0 auto;
   border-collapse: collapse;
   border: none;
 }
 table td, table th {
-  padding: 4 10px;
+	min-width: 150px;
+	max-width: 300px;
+  padding: 15px 15px;
   border: none;
 }
 table tr:nth-child(odd) {
   background-color: #f0f0f0;
+}
+table tr:nth-child(1) {
+  background-color: #345;
+  color: white;
 }
 th {
   text-align: left;
@@ -23,15 +39,15 @@ th {
 	</head>
 	<body>
 
-<h1>Scheduled Jobs</h1>
+<h1>JobRunner Status Report</h1>
 
 <table>
 	<tr><th>Name</th><th>Status</th><th>Last run</th><th>Next run</th></tr>
-{{range .Entries}}
-	{{$job := .Job}}
+{{range .}}
+
 	<tr>
-		<td>{{$job.Name}}</td>
-		<td>{{$job.Status}}</td>
+		<td>{{.JobRunner.Name}}</td>
+		<td>{{.JobRunner.Status}}</td>
 		<td>{{if not .Prev.IsZero}}{{.Prev.Format "2006-01-02 15:04:05"}}{{end}}</td>
 		<td>{{if not .Next.IsZero}}{{.Next.Format "2006-01-02 15:04:05"}}{{end}}</td>
 	</tr>

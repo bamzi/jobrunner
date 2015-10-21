@@ -46,7 +46,7 @@ func Start(v ...int) {
 	}
 
 	MainCron.Start()
-	fmt.Println("JobRunner Started...")
+
 	fmt.Printf("%s[JobRunner] %v Started... %s \n",
 		magenta, time.Now().Format("2006/01/02 - 15:04:05"), reset)
 

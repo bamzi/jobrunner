@@ -1,23 +1,59 @@
 package jobrunner
 
 import (
-	"bytes"
-	"text/template"
+	"time"
 
 	"gopkg.in/robfig/cron.v2"
 )
 
-func StatusPage() *template.Template {
-	t := template.New("status_page")
-	t, _ = t.ParseFiles("views/Status.html")
-	ent := MainCron.Entries()
+type StatusData struct {
+	Id        cron.EntryID
+	JobRunner *Job
+	Next      time.Time
+	Prev      time.Time
+}
 
-	Entries := make([]cron.Entry, len(ent))
+func StatusPage() []StatusData {
 
-	for _, v := range ent {
-		Entries = append(Entries, v)
+	ents := MainCron.Entries()
+
+	Statuses := make([]StatusData, len(ents))
+	for k, v := range ents {
+		Statuses[k].Id = v.ID
+		Statuses[k].JobRunner = AddJob(v.Job)
+		Statuses[k].Next = v.Next
+		Statuses[k].Prev = v.Prev
+
 	}
-	var data bytes.Buffer
-	t.ExecuteTemplate(&data, "status_page", Entries)
-	return t
+
+	// t := template.New("status_page")
+
+	// var data bytes.Buffer
+	// t, _ = t.ParseFiles("views/Status.html")
+
+	// t.ExecuteTemplate(&data, "status_page", Statuses())
+	return Statuses
+}
+
+func StatusJson() map[string]interface{} {
+
+	ents := MainCron.Entries()
+
+	Statuses := make([]StatusData, len(ents))
+	for k, v := range ents {
+		Statuses[k].Id = v.ID
+		Statuses[k].JobRunner = AddJob(v.Job)
+		Statuses[k].Next = v.Next
+		Statuses[k].Prev = v.Prev
+
+	}
+
+	return map[string]interface{}{
+		"jobrunner": Statuses,
+	}
+
+}
+
+func AddJob(job cron.Job) *Job {
+	return job.(*Job)
 }

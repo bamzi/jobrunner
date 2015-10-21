@@ -15,6 +15,7 @@ type Job struct {
 	Name    string
 	inner   cron.Job
 	status  uint32
+	Status  string
 	running sync.Mutex
 }
 
@@ -31,11 +32,14 @@ func New(job cron.Job) *Job {
 	}
 }
 
-func (j *Job) Status() string {
+func (j *Job) StatusUpdate() string {
 	if atomic.LoadUint32(&j.status) > 0 {
-		return "RUNNING"
+		j.Status = "RUNNING"
+		return j.Status
 	}
-	return "IDLE"
+	j.Status = "IDLE"
+	return j.Status
+
 }
 
 func (j *Job) Run() {
@@ -66,7 +70,10 @@ func (j *Job) Run() {
 	}
 
 	atomic.StoreUint32(&j.status, 1)
+	j.StatusUpdate()
+
 	defer atomic.StoreUint32(&j.status, 0)
+	defer j.StatusUpdate()
 
 	j.inner.Run()
 }
