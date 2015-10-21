@@ -37,19 +37,8 @@ func StatusPage() []StatusData {
 
 func StatusJson() map[string]interface{} {
 
-	ents := MainCron.Entries()
-
-	Statuses := make([]StatusData, len(ents))
-	for k, v := range ents {
-		Statuses[k].Id = v.ID
-		Statuses[k].JobRunner = AddJob(v.Job)
-		Statuses[k].Next = v.Next
-		Statuses[k].Prev = v.Prev
-
-	}
-
 	return map[string]interface{}{
-		"jobrunner": Statuses,
+		"jobrunner": StatusPage(),
 	}
 
 }
