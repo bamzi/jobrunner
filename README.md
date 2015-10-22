@@ -1,12 +1,14 @@
 # ![](https://raw.githubusercontent.com/bamzi/jobrunner/master/views/runclock.jpg) JobRunner
 
-JobRunner is framework for performing work asynchronously, outside of the request flow. It comes with cron to schedule and queue job functions for processing at specified time.
+JobRunner is framework for performing work asynchronously, outside of the request flow. It comes with cron to schedule and queue job functions for processing at specified time. 
+
+It includes a live monitoring of current schedule and state of active jobs that can be outputed as JSON or Html template. 
 
 ## Install
 
 `go get github.com/bamzi/jobrunner`
 
-#### Setup
+### Setup
 
 ```go
 package main
@@ -29,6 +31,40 @@ func (e ReminderEmails) Run() {
     // Sends some email
     fmt.Printf("Every 5 sec send reminder emails \n")
 }
+```
+
+### Live Monitoring
+![](https://raw.githubusercontent.com/bamzi/jobrunner/master/views/jobrunner-html.png)
+```go
+
+// Example of GIN micro framework
+func main() {
+    routes := gin.Default()
+
+    // Resource to return the JSON data
+    routes.GET("/jobrunner/json", JobJson)
+
+    // Load template file location relative to the current working directory
+    routes.LoadHTMLGlob("../github.com/bamzi/jobrunner/views/Status.html")
+
+    // Returns html page at given endpoint based on the loaded
+    // template from above
+    routes.GET("/jobrunner/html", JobHtml)
+
+    routes.Run(":8080")
+}
+
+func JobJson(c *gin.Context) {
+    // returns a map[string]interface{} that can be marshalled as JSON
+    c.JSON(200, jobrunner.StatusJson())
+}
+
+func JobHtml(c *gin.Context) {
+    // Returns the template data pre-parsed
+    c.HTML(200, "", jobrunner.StatusPage())
+
+}
+
 ```
 ## WHY?
 To reduce our http response latency by 200+%
