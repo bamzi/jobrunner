@@ -20,11 +20,13 @@ table {
   border: none;
 }
 table td, table th {
-	min-width: 150px;
-	max-width: 300px;
-  padding: 15px 15px;
+	min-width: 25px;
+	width: auto;
+  padding: 15px 20px;
   border: none;
 }
+
+
 table tr:nth-child(odd) {
   background-color: #f0f0f0;
 }
@@ -35,6 +37,7 @@ table tr:nth-child(1) {
 th {
   text-align: left;
 }
+
 		</style>
 	</head>
 	<body>
@@ -42,10 +45,11 @@ th {
 <h1>JobRunner Status Report</h1>
 
 <table>
-	<tr><th>Name</th><th>Status</th><th>Last run</th><th>Next run</th></tr>
+	<tr><th>ID</th><th>Name</th><th>Status</th><th>Last run</th><th>Next run</th></tr>
 {{range .}}
 
 	<tr>
+		<td>{{.Id}}</td>
 		<td>{{.JobRunner.Name}}</td>
 		<td>{{.JobRunner.Status}}</td>
 		<td>{{if not .Prev.IsZero}}{{.Prev.Format "2006-01-02 15:04:05"}}{{end}}</td>
