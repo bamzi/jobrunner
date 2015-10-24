@@ -13,6 +13,12 @@ type StatusData struct {
 	Prev      time.Time
 }
 
+// Return detailed list of currently running recurring jobs
+// to remove an entry, first retrieve the ID of entry
+func Entries() []cron.Entry {
+	return MainCron.Entries()
+}
+
 func StatusPage() []StatusData {
 
 	ents := MainCron.Entries()

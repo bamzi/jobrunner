@@ -47,15 +47,9 @@ func (j *Job) Run() {
 	// Don't let the whole process die.
 	defer func() {
 		if err := recover(); err != nil {
-			//if revelError := revel.NewErrorFromPanic(err); revelError != nil {
-			// revel.ERROR.Print(err, "\n", revelError.Stack)
-			// } else {
-			// revel.ERROR.Print(err, "\n", string(debug.Stack()))
-
 			var buf bytes.Buffer
 			logger := log.New(&buf, "JobRunner Log: ", log.Lshortfile)
 			logger.Panic(err, "\n", string(debug.Stack()))
-			// }
 		}
 	}()
 

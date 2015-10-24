@@ -26,15 +26,6 @@ type Func func()
 func (r Func) Run() { r() }
 
 func Schedule(spec string, job cron.Job) error {
-	// Look to see if given spec is a key from the Config.
-	// if strings.HasPrefix(spec, "cron.") {
-	// 	confSpec, found := revel.Config.String(spec)
-	// 	if !found {
-	// 		panic("Cron spec not found: " + spec)
-	// 	}
-	// 	spec = confSpec
-	// }
-
 	sched, err := cron.Parse(spec)
 	if err != nil {
 		return err
@@ -53,14 +44,11 @@ func Every(duration time.Duration, job cron.Job) {
 
 // Run the given job right now.
 func Now(job cron.Job) {
-	// Spec = "Now"
-
 	go New(job).Run()
 }
 
 // Run the given job once, after the given delay.
 func In(duration time.Duration, job cron.Job) {
-
 	go func() {
 		time.Sleep(duration)
 		New(job).Run()
