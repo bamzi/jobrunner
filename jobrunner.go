@@ -7,6 +7,7 @@ import (
 	"runtime/debug"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"gopkg.in/robfig/cron.v2"
 )
@@ -16,6 +17,7 @@ type Job struct {
 	inner   cron.Job
 	status  uint32
 	Status  string
+	Latency string
 	running sync.Mutex
 }
 
@@ -43,6 +45,7 @@ func (j *Job) StatusUpdate() string {
 }
 
 func (j *Job) Run() {
+	start := time.Now()
 	// If the job panics, just print a stack trace.
 	// Don't let the whole process die.
 	defer func() {
@@ -70,4 +73,8 @@ func (j *Job) Run() {
 	defer j.StatusUpdate()
 
 	j.inner.Run()
+
+	end := time.Now()
+	j.Latency = end.Sub(start).String()
+
 }
