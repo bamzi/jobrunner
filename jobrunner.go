@@ -69,8 +69,8 @@ func (j *Job) Run() {
 	atomic.StoreUint32(&j.status, 1)
 	j.StatusUpdate()
 
-	defer atomic.StoreUint32(&j.status, 0)
 	defer j.StatusUpdate()
+	defer atomic.StoreUint32(&j.status, 0)
 
 	j.inner.Run()
 
