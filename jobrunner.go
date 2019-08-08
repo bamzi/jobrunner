@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"gopkg.in/robfig/cron.v2"
+	"github.com/robfig/cron/v3"
 )
 
 type Job struct {

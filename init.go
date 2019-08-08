@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"gopkg.in/robfig/cron.v2"
+	"github.com/robfig/cron/v3"
 )
 
 const DEFAULT_JOB_POOL_SIZE = 10
