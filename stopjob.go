@@ -1,6 +1,6 @@
 package jobrunner
 
-import "gopkg.in/robfig/cron.v2"
+import "github.com/robfig/cron"
 
 // Stop ALL active jobs from running at the next scheduled time
 func Stop() {

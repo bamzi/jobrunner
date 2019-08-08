@@ -3,7 +3,7 @@ package jobrunner
 import (
 	"time"
 
-	"gopkg.in/robfig/cron.v2"
+	"github.com/robfig/cron"
 )
 
 type StatusData struct {
