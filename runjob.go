@@ -13,7 +13,7 @@ package jobrunner
 import (
 	"time"
 
-	"github.com/robfig/cron"
+	"github.com/robfig/cron/v3"
 )
 
 // Callers can use jobs.Func to wrap a raw func.
@@ -26,7 +26,7 @@ type Func func()
 func (r Func) Run() { r() }
 
 func Schedule(spec string, job cron.Job) error {
-	sched, err := cron.Parse(spec)
+	sched, err := cron.ParseStandard(spec)
 	if err != nil {
 		return err
 	}
