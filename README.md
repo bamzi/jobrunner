@@ -132,7 +132,7 @@ JobRunner is designed to be framework agnostic. So it will work with pure Go app
 
 ## Credits
 - [revel jobs module](https://github.com/revel/modules/tree/master/jobs) - Origin of JobRunner
-- [robfig cron v2](https://github.com/robfig/cron/tree/v2) - gopkg.in/robfig/cron.v2
+- [robfig cron v3](https://github.com/robfig/cron/tree/v3) - github.com/robfig/cron/v3
 - [contributors](https://github.com/bamzi/jobrunner/graphs/contributors)
 
 ### Author 

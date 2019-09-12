@@ -13,7 +13,7 @@ package jobrunner
 import (
 	"time"
 
-	"gopkg.in/robfig/cron.v3"
+	"github.com/robfig/cron/v3"
 )
 
 // Callers can use jobs.Func to wrap a raw func.
