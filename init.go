@@ -24,26 +24,33 @@ var (
 	green   = string([]byte{27, 91, 57, 55, 59, 52, 50, 109})
 	magenta = string([]byte{27, 91, 57, 55, 59, 52, 53, 109})
 	reset   = string([]byte{27, 91, 48, 109})
+
+	functions =[]interface{}{makeWorkPermits,isSelfConcurrent}
 )
+
+func makeWorkPermits(bufferCapacity int) {
+	if bufferCapacity <=0 {
+		workPermits = make(chan struct{}, DEFAULT_JOB_POOL_SIZE)
+	} else {
+		workPermits = make(chan struct{}, bufferCapacity)
+	}
+}
+
+func isSelfConcurrent(cocnurrencyFlag int) {
+	if cocnurrencyFlag <=0 {
+		selfConcurrent = false
+	} else {
+		selfConcurrent = true
+	}
+}
 
 func Start(v ...int) {
 	MainCron = cron.New()
 
-	if len(v) > 0 {
-		if v[0] > 0 {
-			workPermits = make(chan struct{}, v[0])
-		} else {
-			workPermits = make(chan struct{}, DEFAULT_JOB_POOL_SIZE)
-		}
+	for i,option := range v {
+		functions[i].(func(int))(option)
 	}
 
-	if len(v) > 1 {
-		if v[1] > 0 {
-			selfConcurrent = true
-		} else {
-			selfConcurrent = false
-		}
-	}
 
 	MainCron.Start()
 
