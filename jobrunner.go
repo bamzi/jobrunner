@@ -1,7 +1,6 @@
 package jobrunner
 
 import (
-	"bytes"
 	"log"
 	"reflect"
 	"runtime/debug"
@@ -50,9 +49,8 @@ func (j *Job) Run() {
 	// Don't let the whole process die.
 	defer func() {
 		if err := recover(); err != nil {
-			var buf bytes.Buffer
-			logger := log.New(&buf, "JobRunner Log: ", log.Lshortfile)
-			logger.Panic(err, "\n", string(debug.Stack()))
+			log.Printf("[JobRunner] %v Job %q Panicked:\n%s\n",
+				time.Now().Format("2006/01/02 - 15:04:05"), j.Name, string(debug.Stack()))
 		}
 	}()
 
