@@ -25,21 +25,24 @@ type Func func()
 
 func (r Func) Run() { r() }
 
-func Schedule(spec string, job cron.Job) error {
+// You can add a job using user-defined job name.
+// For example:
+//    jobrunner.Schedule("cron.frequent", jobs.Func(myFunc), "my-job")
+func Schedule(spec string, job cron.Job, n ...string) error {
 	sched, err := cron.ParseStandard(spec)
 	if err != nil {
 		return err
 	}
-	MainCron.Schedule(sched, New(job))
+	MainCron.Schedule(sched, New(job, n...))
 	return nil
 }
 
 // Run the given job at a fixed interval.
 // The interval provided is the time between the job ending and the job being run again.
 // The time that the job takes to run is not included in the interval.
-func Every(duration time.Duration, job cron.Job) {
+func Every(duration time.Duration, job cron.Job, n ...string) {
 
-	MainCron.Schedule(cron.Every(duration), New(job))
+	MainCron.Schedule(cron.Every(duration), New(job, n...))
 }
 
 // Run the given job right now.
