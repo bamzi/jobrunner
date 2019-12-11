@@ -66,6 +66,67 @@ func JobHtml(c *gin.Context) {
 }
 
 ```
+## Custom Logger
+If you use your own or customized logger package, you can integrate your logger package by following the steps below.
+
+```go
+package main
+
+import (
+    "github.com/robfig/cron/v3"
+    "github.com/rs/zerolog"
+    "log"
+)
+
+type CustomLogger struct {
+	cron.Logger
+	Log *zerolog.Logger
+}
+
+func (l CustomLogger) Info(format string, keysAndValues ...interface{}) {
+	l.Log.Info().Msg(fmt.Sprintf(format, keysAndValues...))
+}
+
+func (l CustomLogger) Error(err error, format string, keysAndValues ...interface{}) {
+	l.Log.Err(err).Msg(fmt.Sprintf(format, keysAndValues...))
+}
+
+func main() {
+    zeroLogger := zerolog.New(os.Stderr).With().Timestamp().Logger()
+    log.SetOutput(zeroLogger)
+
+    logger := CustomLogger{Log: &zeroLogger}
+
+    StartWithLogger(logger)
+
+    Schedule("@every 1s", CustomJob{})
+
+    ch := make(chan bool)
+
+    time.AfterFunc(5 * time.Second, func() {
+        ch<-true
+    })
+
+    <-ch
+}
+```
+Log Output
+```
+{"level":"info","time":"2019-12-11T19:19:11+03:00","message":"JobRunner Started"}
+{"level":"info","time":"2019-12-11T19:19:11+03:00","message":"start"}
+{"level":"info","time":"2019-12-11T19:19:11+03:00","message":"added%!(EXTRA string=now, time.Time=2019-12-11 19:19:11.539557059 +0300 +03, string=entry, cron.EntryID=1, string=next, time.Time=2019-12-11 19:19:12 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:12+03:00","message":"wake%!(EXTRA string=now, time.Time=2019-12-11 19:19:12.000175121 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:12+03:00","message":"run%!(EXTRA string=now, time.Time=2019-12-11 19:19:12.000175121 +0300 +03, string=entry, cron.EntryID=1, string=next, time.Time=2019-12-11 19:19:13 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:13+03:00","message":"wake%!(EXTRA string=now, time.Time=2019-12-11 19:19:13.000324711 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:13+03:00","message":"run%!(EXTRA string=now, time.Time=2019-12-11 19:19:13.000324711 +0300 +03, string=entry, cron.EntryID=1, string=next, time.Time=2019-12-11 19:19:14 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:14+03:00","message":"wake%!(EXTRA string=now, time.Time=2019-12-11 19:19:14.000597951 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:14+03:00","message":"run%!(EXTRA string=now, time.Time=2019-12-11 19:19:14.000597951 +0300 +03, string=entry, cron.EntryID=1, string=next, time.Time=2019-12-11 19:19:15 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:15+03:00","message":"wake%!(EXTRA string=now, time.Time=2019-12-11 19:19:15.0004445 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:15+03:00","message":"run%!(EXTRA string=now, time.Time=2019-12-11 19:19:15.0004445 +0300 +03, string=entry, cron.EntryID=1, string=next, time.Time=2019-12-11 19:19:16 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:16+03:00","message":"wake%!(EXTRA string=now, time.Time=2019-12-11 19:19:16.000527496 +0300 +03)"}
+{"level":"info","time":"2019-12-11T19:19:16+03:00","message":"run%!(EXTRA string=now, time.Time=2019-12-11 19:19:16.000527496 +0300 +03, string=entry, cron.EntryID=1, string=next, time.Time=2019-12-11 19:19:17 +0300 +03)"}
+```
+
 ## WHY?
 To reduce our http response latency by 200+%
 

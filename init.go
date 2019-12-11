@@ -44,6 +44,19 @@ func isSelfConcurrent(cocnurrencyFlag int) {
 	}
 }
 
+func StartWithLogger(logger cron.Logger, v ...int) {
+
+	MainCron = cron.New(cron.WithLogger(logger))
+
+	for i,option := range v {
+		functions[i].(func(int))(option)
+	}
+
+	MainCron.Start()
+
+	logger.Info("JobRunner Started")
+}
+
 func Start(v ...int) {
 	MainCron = cron.New()
 
@@ -56,5 +69,4 @@ func Start(v ...int) {
 
 	fmt.Printf("%s[JobRunner] %v Started... %s \n",
 		magenta, time.Now().Format("2006/01/02 - 15:04:05"), reset)
-
 }
