@@ -112,7 +112,7 @@ JobRunner is designed to be framework agnostic. So it will work with pure Go app
 ## Basics
 
 ```go
-    jobrunner.Schedule("* */5 * * * *", DoSomething{}) // every 5min do something
+    jobrunner.Schedule("*/5 * * * *", DoSomething{}) // every 5min do something
     jobrunner.Schedule("@every 1h30m10s", ReminderEmails{})
     jobrunner.Schedule("@midnight", DataStats{}) // every midnight do this..
     jobrunner.Every(16*time.Minute, CleanS3{}) // evey 16 min clean...
