@@ -1,8 +1,8 @@
 # ![](https://raw.githubusercontent.com/bamzi/jobrunner/master/views/runclock.jpg) JobRunner
 
-JobRunner is framework for performing work asynchronously, outside of the request flow. It comes with cron to schedule and queue job functions for processing at specified time. 
+JobRunner is framework for performing work asynchronously, outside of the request flow. It comes with cron to schedule and queue job functions for processing at specified time.
 
-It includes a live monitoring of current schedule and state of active jobs that can be outputed as JSON or Html template. 
+It includes a live monitoring of current schedule and state of active jobs that can be outputted as JSON or Html template.
 
 ## Install
 
@@ -61,7 +61,7 @@ func JobJson(c *gin.Context) {
 
 func JobHtml(c *gin.Context) {
     // Returns the template data pre-parsed
-    c.HTML(200, "", jobrunner.StatusPage())
+    c.HTML(200, "Status.html", jobrunner.StatusPage())
 
 }
 
@@ -69,7 +69,7 @@ func JobHtml(c *gin.Context) {
 ## WHY?
 To reduce our http response latency by 200+%
 
-JobRunner was created to help us process functions unrelated to response without any delays to the http response. GoRoutines would timeout because response has already been processed, closing the instance window all together. 
+JobRunner was created to help us process functions unrelated to response without any delays to the http response. GoRoutines would timeout because response has already been processed, closing the instance window all together.
 
 Instead of creating a separate independent app, we wanted to save time and manageability of our current app by coupling-in the job processing. We did not want to have micro services. It's premature optimization.
 
@@ -96,7 +96,7 @@ Here are some examples of what we use JobRunner for:
 
 ## Compatibility
 
-JobRunner is designed to be framework agnostic. So it will work with pure Go apps as well as any framework written in Go Language. 
+JobRunner is designed to be framework agnostic. So it will work with pure Go apps as well as any framework written in Go Language.
 
 *Verified Supported Frameworks*
 
@@ -135,7 +135,7 @@ JobRunner is designed to be framework agnostic. So it will work with pure Go app
 - [robfig cron v3](https://github.com/robfig/cron/tree/v3) - github.com/robfig/cron/v3
 - [contributors](https://github.com/bamzi/jobrunner/graphs/contributors)
 
-### Author 
+### Author
 **Bam Azizi**
 Github: [@bamzi](https://github.com/bamzi)
 Twitter: [@bamazizi](https://twitter/bamazizi)
