@@ -1,21 +1,43 @@
 <html>
 	<head>
 		<style>
+			:root {
+				--bg-color: #ffffff;
+				--text-color: #345;
+				--header-bg: #345;
+				--header-text: #ffffff;
+				--odd-row-bg: #f0f0f0;
+				--table-border: #ddd;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--bg-color: #0c0c0c;
+					--text-color: #00ff00;
+					--header-bg: #1a1a1a;
+					--header-text: #00ff41;
+					--odd-row-bg: #111111;
+					--table-border: #333;
+				}
+			}
+
 			body {
 				margin: 30px 0 0 0;
 				font-size: 11px;
 				font-family: sans-serif;
-				color: #345;
+				color: var(--text-color);
+				background-color: var(--bg-color);
+				transition: background-color 0.3s ease, color 0.3s ease;
 			}
 
 			h1 {
 				font-size: 24px;
 				text-align: center;
 				padding: 10 0 30px;
+				color: var(--text-color);
 			}
 
 			table {
-				/*max-width: 80%;*/
 				margin: 0 auto;
 				border-collapse: collapse;
 				border: none;
@@ -26,15 +48,22 @@
 				width: auto;
 				padding: 15px 20px;
 				border: none;
+				color: var(--text-color);
+				transition: background-color 0.3s ease, color 0.3s ease;
 			}
 
 			table tr:nth-child(odd) {
-				background-color: #f0f0f0;
+				background-color: var(--odd-row-bg);
 			}
 
 			table tr:nth-child(1) {
-				background-color: #345;
-				color: white;
+				background-color: var(--header-bg);
+				color: var(--header-text);
+			}
+
+			table tr:nth-child(1) td,
+			table tr:nth-child(1) th {
+				color: var(--header-text);
 			}
 
 			th {
