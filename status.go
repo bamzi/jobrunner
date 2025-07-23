@@ -20,16 +20,16 @@ func Entries() []cron.Entry {
 }
 
 func StatusPage() []StatusData {
-
 	ents := MainCron.Entries()
 
-	Statuses := make([]StatusData, len(ents))
-	for k, v := range ents {
-		Statuses[k].Id = v.ID
-		Statuses[k].JobRunner = AddJob(v.Job)
-		Statuses[k].Next = v.Next
-		Statuses[k].Prev = v.Prev
-
+	Statuses := make([]StatusData, 0, len(ents))
+	for _, v := range ents {
+		Statuses = append(Statuses, StatusData{
+			Id:        v.ID,
+			JobRunner: AddJob(v.Job),
+			Next:      v.Next,
+			Prev:      v.Prev,
+		})
 	}
 
 	// t := template.New("status_page")
@@ -42,11 +42,9 @@ func StatusPage() []StatusData {
 }
 
 func StatusJson() map[string]interface{} {
-
 	return map[string]interface{}{
 		"jobrunner": StatusPage(),
 	}
-
 }
 
 func AddJob(job cron.Job) *Job {
