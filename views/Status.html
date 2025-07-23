@@ -1,60 +1,92 @@
 <html>
 	<head>
 		<style>
-body {
-	margin: 30px 0 0 0;
-  font-size: 11px;
-  font-family: sans-serif;
-  color: #345;
+			:root {
+				--bg-color: #ffffff;
+				--text-color: #345;
+				--header-bg: #345;
+				--header-text: #ffffff;
+				--odd-row-bg: #f0f0f0;
+				--table-border: #ddd;
+			}
 
-}
-h1 {
-	font-size: 24px;
-	text-align: center;
-	padding: 10 0 30px;
-}
-table {
-	/*max-width: 80%;*/
-	margin: 0 auto;
-  border-collapse: collapse;
-  border: none;
-}
-table td, table th {
-	min-width: 25px;
-	width: auto;
-  padding: 15px 20px;
-  border: none;
-}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--bg-color: #0c0c0c;
+					--text-color: #00ff00;
+					--header-bg: #1a1a1a;
+					--header-text: #00ff41;
+					--odd-row-bg: #111111;
+					--table-border: #333;
+				}
+			}
 
+			body {
+				margin: 30px 0 0 0;
+				font-size: 11px;
+				font-family: sans-serif;
+				color: var(--text-color);
+				background-color: var(--bg-color);
+				transition: background-color 0.3s ease, color 0.3s ease;
+			}
 
-table tr:nth-child(odd) {
-  background-color: #f0f0f0;
-}
-table tr:nth-child(1) {
-  background-color: #345;
-  color: white;
-}
-th {
-  text-align: left;
-}
+			h1 {
+				font-size: 24px;
+				text-align: center;
+				padding: 10 0 30px;
+				color: var(--text-color);
+			}
 
+			table {
+				margin: 0 auto;
+				border-collapse: collapse;
+				border: none;
+			}
+
+			table td, table th {
+				min-width: 25px;
+				width: auto;
+				padding: 15px 20px;
+				border: none;
+				color: var(--text-color);
+				transition: background-color 0.3s ease, color 0.3s ease;
+			}
+
+			table tr:nth-child(odd) {
+				background-color: var(--odd-row-bg);
+			}
+
+			table tr:nth-child(1) {
+				background-color: var(--header-bg);
+				color: var(--header-text);
+			}
+
+			table tr:nth-child(1) td,
+			table tr:nth-child(1) th {
+				color: var(--header-text);
+			}
+
+			th {
+				text-align: left;
+			}
 		</style>
 	</head>
 	<body>
+		<h1>JobRunner Status Report</h1>
 
-<h1>JobRunner Status Report</h1>
+		<table>
+			<tr><th>ID</th><th>Name</th><th>Status</th><th>Last run</th><th>Next run</th><th>Latency</th></tr>
 
-<table>
-	<tr><th>ID</th><th>Name</th><th>Status</th><th>Last run</th><th>Next run</th><th>Latency</th></tr>
-{{range .}}
-
-	<tr>
-		<td>{{.Id}}</td>
-		<td>{{.JobRunner.Name}}</td>
-		<td>{{.JobRunner.Status}}</td>
-		<td>{{if not .Prev.IsZero}}{{.Prev.Format "2006-01-02 15:04:05"}}{{end}}</td>
-		<td>{{if not .Next.IsZero}}{{.Next.Format "2006-01-02 15:04:05"}}{{end}}</td>
-		<td>{{.JobRunner.Latency}}</td>
-	</tr>
-{{end}}
-</table>
+			{{range .}}
+			<tr>
+				<td>{{.Id}}</td>
+				<td>{{.JobRunner.Name}}</td>
+				<td>{{.JobRunner.Status}}</td>
+				<td>{{if not .Prev.IsZero}}{{.Prev.Format "2006-01-02 15:04:05"}}{{end}}</td>
+				<td>{{if not .Next.IsZero}}{{.Next.Format "2006-01-02 15:04:05"}}{{end}}</td>
+				<td>{{.JobRunner.Latency}}</td>
+			</tr>
+			{{end}}
+		</table>
+	</body>
+</html>
