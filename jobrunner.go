@@ -21,11 +21,16 @@ type Job struct {
 	running sync.Mutex
 }
 
-const UNNAMED = "(unnamed)"
+const (
+	UNNAMED = "(unnamed)"
+	FUNC    = "Func"
+	IDLE    = "IDLE"
+	RUNNING = "RUNNING"
+)
 
 func New(job cron.Job) *Job {
 	name := reflect.TypeOf(job).Name()
-	if name == "Func" {
+	if name == FUNC {
 		name = UNNAMED
 	}
 	return &Job{
@@ -36,10 +41,10 @@ func New(job cron.Job) *Job {
 
 func (j *Job) StatusUpdate() string {
 	if atomic.LoadUint32(&j.status) > 0 {
-		j.Status = "RUNNING"
+		j.Status = UNNAMED
 		return j.Status
 	}
-	j.Status = "IDLE"
+	j.Status = IDLE
 	return j.Status
 
 }
@@ -76,5 +81,4 @@ func (j *Job) Run() {
 
 	end := time.Now()
 	j.Latency = end.Sub(start).String()
-
 }
